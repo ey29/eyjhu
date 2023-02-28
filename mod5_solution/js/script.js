@@ -23,6 +23,8 @@ var menuItemsUrl =
 var menuItemsTitleHtml = "snippets/menu-items-title.html";
 var menuItemHtml = "snippets/menu-item.html";
 
+var aboutHtml = "snippets/about.html"
+
 // Convenience function for inserting innerHTML for 'select'
 var insertHtml = function (selector, html) {
   var targetElem = document.querySelector(selector);
@@ -83,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
-  [...], // ***** <---- TODO: STEP 1: Substitute [...] ******
+  buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
   true); // Explicitly setting the flag to get JSON from server processed into an object literal
 });
 // *** finish **
@@ -101,7 +103,7 @@ function buildAndShowHomeHTML (categories) {
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
       // variable's name implies it expects.
-      // var chosenCategoryShortName = ....
+      var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
 
 
       // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the
@@ -115,14 +117,15 @@ function buildAndShowHomeHTML (categories) {
       // Hint: you need to surround the chosen category short name with something before inserting
       // it into the home html snippet.
       //
-      // var homeHtmlToInsertIntoMainPage = ....
+      var chosenCategoryShortNameToInsert = "'" + chosenCategoryShortName + "'";
+      var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml, "randomCategoryShortName", chosenCategoryShortNameToInsert);
 
 
       // TODO: STEP 4: Insert the produced HTML in STEP 3 into the main page
       // Use the existing insertHtml function for that purpose. Look through this code for an example
       // of how to do that.
       // ....
-
+      insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
     },
     false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
 }
@@ -156,6 +159,51 @@ dc.loadMenuItems = function (categoryShort) {
     buildAndShowMenuItemsHTML);
 };
 
+dc.loadAbout = function () {
+  showLoading("#main-content");
+  $ajaxUtils.sendGetRequest(
+    aboutHtml,
+    function(aboutHtml) {
+      var rating = generateRandomNumberFromOneToFive();
+      console.log(aboutHtml);
+      console.log(rating);
+      if(rating == 1){
+        console.log("is 1");
+        aboutHtml = insertProperty(aboutHtml, "class1", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class2", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class3", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class4", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class5", "fa fa-star-o");
+      } else if (rating === 2) {
+        aboutHtml = insertProperty(aboutHtml, "class1", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class2", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class3", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class4", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class5", "fa fa-star-o");
+      } else if (rating === 3) {
+        aboutHtml = insertProperty(aboutHtml, "class1", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class2", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class3", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class4", "fa fa-star-o");
+        aboutHtml = insertProperty(aboutHtml, "class5", "fa fa-star-o");
+      } else if (rating === 4) {
+        aboutHtml = insertProperty(aboutHtml, "class1", "fa fa-star");
+        aboutHtml = insertProperty(aboutHtml, "class2", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class3", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class4", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class5", "fa fa-star-o");
+      } else {
+        aboutHtml = insertProperty(aboutHtml, "class1", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class2", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class3", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class4", "fa fa-star");
+        aboutHtml =  insertProperty(aboutHtml, "class5", "fa fa-star");
+      }
+      aboutHtml =  insertProperty(aboutHtml, "number", rating);
+      insertHtml("#main-content", aboutHtml);
+    },
+    false);
+};
 
 // Builds HTML for the categories page based on the data
 // from the server
@@ -337,6 +385,9 @@ function insertItemPortionName(html,
   return html;
 }
 
+function generateRandomNumberFromOneToFive() {
+  return Math.floor(Math.random() * 5 + 1);
+}
 
 global.$dc = dc;
 
