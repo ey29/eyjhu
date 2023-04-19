@@ -1,0 +1,9 @@
+h1 {
+    color: blue
+}
+
+li[ui-sref]:hover {
+  cursor: pointer;
+  color:blue;
+  padding-right: 5px;
+}
