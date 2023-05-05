@@ -1,0 +1,102 @@
+<div class="container">
+  <h2>Sign Up Now! You can log in later</h2>
+  <br />
+  <form name="signupForm" novalidate>
+    <h4>First Name</h4>
+    <input
+      type="text"
+      name="firstName"
+      placeholder="Enter first name"
+      class="signup-input"
+      ng-model="signupCtrl.firstName"
+      required
+    />
+    {{ signupCtrl.firstName }}
+    <span
+      ng-if="signupForm.firstName.$error.required && signupForm.firstName.$touched"
+    >
+      First name must be at least 1 characters long
+    </span>
+    <br />
+
+    <h4>Last Name</h4>
+    <input
+      type="text"
+      name="lastName"
+      placeholder="Enter last name"
+      class="signup-input"
+      ng-model="signupCtrl.lastName"
+      required
+    />
+    {{ signupCtrl.lastName }}
+    <span
+      ng-if="signupForm.lastName.$error.required && signupForm.lastName.$touched"
+    >
+      Last name must be at least 1 characters long
+    </span>
+    <br />
+
+    <h4>Email</h4>
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      class="signup-input"
+      ng-model="signupCtrl.email"
+      required
+    />
+    {{ signupCtrl.email }}
+    <span ng-if="signupForm.email.$invalid && signupForm.email.$touched">
+      Must be a valid email address: handle@domain format
+    </span>
+    <br />
+
+    <h4>Phone</h4>
+    <input
+      type="text"
+      name="phone"
+      placeholder="Phone ###-###-####"
+      class="signup-input"
+      ng-model="signupCtrl.phone"
+      pattern="(\d{3})-(\d{3})-(\d{4})"
+    />
+    {{ signupCtrl.phone }}
+    <span ng-if="signupForm.phone.$invalid && signupForm.phone.$touched">
+      Phone must be in the format ###-###-####.
+    </span>
+    <br />
+
+    <h4>Favorite dish</h4>
+    <input
+      type="text"
+      name="favDish"
+      placeholder="Favorite dish"
+      class="signup-input"
+      ng-model="signupCtrl.favDish"
+      required
+      minlength="2"
+    />
+    <span
+      ng-if="(signupForm.favDish.$error.minlength || signupForm.favDish.$error.required) && signupForm.favDish.$touched"
+    >
+      Favorite dish must be short category name
+    </span>
+    <span
+      ng-if="signupForm.favDish.$touched && !signupForm.favDish.$error.minlength && !signupCtrl.isDishValidate(signupCtrl.favDish)"
+    >
+      No such menu number exists
+    </span>
+    <br />
+    <br />
+    <button
+      ng-disabled="signupForm.$invalid || !signupCtrl.isDishValidate(signupCtrl.favDish)"
+      ng-click="signupCtrl.signup()"
+      class="signup-input"
+    >
+      Submit
+    </button>
+
+    <span ng-if="signupCtrl.signed"> Your information has been saved </span>
+    <!-- {{signupCtrl.signed}} -->
+  </form>
+</div>

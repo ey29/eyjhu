@@ -1,0 +1,34 @@
+<div ng-if="myinfoCtrl.hasInfo" class="container">
+  <h2>Your Information</h2>
+  <div>
+    <p>{{myinfoCtrl.user.firstName}}</p>
+    <p>{{myinfoCtrl.user.lastName}}</p>
+    <p>{{myinfoCtrl.user.email}}</p>
+    <p>{{myinfoCtrl.user.phone}}</p>
+  </div>
+  <h2>Your Favourite Dish</h2>
+  <div>
+    <img
+      class="img-responsive"
+      width="250"
+      height="150"
+      ng-src="images/menu/{{myinfoCtrl.user.categoryShortName}}/{{myinfoCtrl.user.favDish.short_name}}.jpg"
+      alt="{{myinfoCtrl.user.categoryShortName}}"
+    />
+  </div>
+  <div>
+    {{myinfoCtrl.user.favDish.price_small | currency}}<span>
+      {{myinfoCtrl.user.favDish.small_portion_name}}</span
+    >
+    {{myinfoCtrl.user.favDish.price_large | currency}}
+    <span>{{myinfoCtrl.user.favDish.large_portion_name}}</span>
+  </div>
+  <div>
+    <h4>{{myinfoCtrl.user.favDish.name}}</h4>
+    <p>{{myinfoCtrl.user.favDish.description}}</p>
+  </div>
+</div>
+
+<div class="container" ng-if="!myinfoCtrl.hasInfo">
+  Not Signed Up Yet. <a ui-sref="public.signup">Sign up Now!</a>
+</div>
